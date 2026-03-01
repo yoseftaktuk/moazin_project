@@ -9,8 +9,8 @@ kafka = KafkaService()
 class DataService:
     def __init__(self):
         self.PATH = 'data/podcasts/'
-    def loop_in_file(self, directory_in_str):
-        directory = os.fsencode(directory_in_str)
+    def loop_in_file(self):
+        directory = os.fsencode(self.PATH)
         for file in os.listdir(directory):
             filename = os.fsdecode(file)
             if filename.endswith('.wav'):
@@ -29,6 +29,7 @@ class DataService:
         with open(path, 'rb') as f:
             return f.read()
 
-
+a = DataService()
+a.loop_in_file('data/podcasts/')
 
        
