@@ -3,12 +3,13 @@ from pathlib import Path
 import pathlib
 import datetime
 from prudocer import KafkaService
+from logger import Logger
 kafka = KafkaService()
-
+logger = Logger.get_logger() 
 
 class DataService:
     def __init__(self):
-        self.PATH = 'data/podcasts/'
+        self.PATH = 'data/'
     def loop_in_file(self):
         directory = os.fsencode(self.PATH)
         for file in os.listdir(directory):
@@ -16,20 +17,16 @@ class DataService:
             if filename.endswith('.wav'):
                 filename = self.PATH + filename 
                 p = Path(filename)
-                matadata = self.get_meta_data(p)
-                kafka.send_to_kafka(topic='first_topic', data={'matadata': matadata,
-                                     'audio_byts': self.audio_to_byts(filename)})
+                matadata = self.get_meta_data(p, filename)
+                kafka.send_to_kafka(topic='first_topic', data={'matadata': matadata})
 
-    def get_meta_data(self, data: pathlib._local.WindowsPath):
+    def get_meta_data(self, data, path):
         return {'name': data.name,
                 'size': data.stat().st_size,
-                'time': datetime.datetime.now()}
-    
-    def audio_to_byts(self, path: str):
-        with open(path, 'rb') as f:
-            return f.read()
+                'time': datetime.datetime.now(),
+                'path': path}
 
-a = DataService()
-a.loop_in_file('data/podcasts/')
+
+
 
        
