@@ -9,7 +9,7 @@ logger = Logger.get_logger()
 class KafkaService:
     def __init__(self):
         self.producer = KafkaProducer(bootstrap_servers=kafka_uri,
-                                      max_request_size=31457280,
+                                      max_request_size=5 * 1024 * 1024, 
         value_serializer=lambda v: json.dumps(v, default=str).encode('utf-8')) 
           
     def on_send_success(self, record_metadata):
