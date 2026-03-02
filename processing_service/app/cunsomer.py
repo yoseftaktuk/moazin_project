@@ -20,7 +20,7 @@ def get_from_kafka(topic: str):
                 bootstrap_servers=kafka_uri,
                 auto_offset_reset='earliest',
                 enable_auto_commit=False,
-                max_poll_interval_ms=300000,
+                max_poll_interval_ms=600000,
                 value_deserializer=lambda x: json.loads(x.decode('utf-8'))
             )
             logger.info("Connected to Kafka") 
@@ -34,4 +34,6 @@ def get_from_kafka(topic: str):
             for message in messages:
                 data = message.value
                 send.send_to_mongo_and_elastic(data=data)
-                consumer.commit()   
+        
+        if records:
+           consumer.commit_async()        
