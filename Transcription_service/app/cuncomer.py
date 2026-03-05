@@ -3,20 +3,20 @@ from kafka import KafkaConsumer
 import json
 import time
 import os
-from prudocer import KafkaService
-from processingService import ProcessingService
-from send_service import SendService
+from elastic_service import ElasticService
+from transcription_service import TranscriptionService
+transcription = TranscriptionService()
+elastic = ElasticService()
 logger = Logger.get_logger() 
-kafka = KafkaService()
-processing = ProcessingService()
+
 kafka_uri = os.getenv('KAFKA_URI')
-send = SendService()
+
 def get_from_kafka(topic: str):
     while True:
         try:
             consumer = KafkaConsumer(
                 topic,
-                group_id = '1',
+                group_id = '2',
                 bootstrap_servers=kafka_uri,
                 auto_offset_reset='earliest',
                 enable_auto_commit=False,
@@ -33,8 +33,10 @@ def get_from_kafka(topic: str):
         for tp, messages in records.items():
             for message in messages:
                 data = message.value
+                transcription.add_audio_to_str_to_metadata(data=data)# convert audio to string and add the str to data dict 
                 data['audio_id'] = hash(str(data['matadata']['name']) + str(data['matadata']['size']) + str(data['matadata']['time']) + str(data['matadata']['path']))
-                send.send_to_mongo_and_elastic(data=data)
-        
+                elastic.create_index()
+                elastic.upsert(data) #update the elastic index
+       
         if records:
-           consumer.commit_async()        
+           consumer.commit_async()     
