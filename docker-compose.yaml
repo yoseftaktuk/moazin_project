@@ -114,8 +114,20 @@ services:
       mongo:
         condition: service_healthy
       elasticsearch:
-        condition: service_healthy        
+        condition: service_healthy   
 
+  transcription_service:
+    build: /Transcription_service
+    environment:
+        KAFKA_URI: kafka:9092
+        ELASTIC_URI: http://elasticsearch:9200
+    volumes:
+      - ./data/podcasts:/app/data  
+    depends_on:
+      kafka:
+        condition: service_healthy            
+      elasticsearch:
+        condition: service_healthy  
 
 volumes:
   es_data:
