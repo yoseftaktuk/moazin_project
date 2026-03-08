@@ -3,7 +3,7 @@ from kafka import KafkaProducer
 import json
 import os
 from logger.logger import Logger
-kafka_uri = os.getenv('KAFKA_URI', 'localhost:9092')
+kafka_uri = os.getenv('KAFKA_URI')
 logger = Logger.get_logger() 
 
 class KafkaService:
