@@ -1,6 +1,6 @@
 from elasticsearch import Elasticsearch
 import os
-from logger import Logger
+from logger.logger import Logger
 logger = Logger.get_logger()
 
 class ElasticService:

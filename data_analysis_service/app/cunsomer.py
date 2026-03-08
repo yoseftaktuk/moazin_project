@@ -1,4 +1,4 @@
-from logger import Logger
+from logger.logger import Logger
 from kafka import KafkaConsumer
 import json
 import time
@@ -33,7 +33,6 @@ def get_from_kafka(topic: str):
             for message in messages:
                 data = message.value
                 data = analysis.processing_the_information(data=data)
-                print(data)
                 elastic.upsert(data=data)
         if records:
            consumer.commit_async()        

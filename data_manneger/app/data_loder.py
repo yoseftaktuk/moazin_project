@@ -3,7 +3,7 @@ from pathlib import Path
 import pathlib
 import datetime
 from prudocer import KafkaService
-from logger import Logger
+from logger.logger import Logger
 from uuid import uuid4
 kafka = KafkaService()
 logger = Logger.get_logger() 

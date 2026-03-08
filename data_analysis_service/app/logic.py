@@ -1,5 +1,5 @@
 import base64
-
+from logger.logger import Logger
 class DataAnalysisService:
     def decoding_the_information(self):
         bad_to_israel ="R2Vub2NpZGUsV2FyIENyaW1lcyxBcGFydGhlaWQsTWFzc2FjcmUsTmFrYmEsRGlzcGxhY2VtZW50LEh1bWFuaXRhcmlhbiBDcmlzaXMsQmxvY2thZGUsT2NjdXBhdGlvbixSZWZ1Z2VlcyxJQ0MsQkRT"
@@ -56,7 +56,7 @@ class DataAnalysisService:
         data['bds_percent'] = counter / len(fix_text) * 100       
 
     def checking_indicted(self, data: dict):
-        if data['bds_percent'] >= 60 and data['bds_threat_level'] == 'HIGH':
+        if data['bds_percent'] >= 5 and data['bds_threat_level'] == 'HIGH':
             data['is_bds'] = True
             return data
         data['is_bds'] = False
