@@ -1,6 +1,6 @@
 from elasticsearch import Elasticsearch
 import os
-from logger import Logger
+from logger.logger import Logger
 logger = Logger.get_logger()
 
 class ElasticService:
@@ -9,7 +9,8 @@ class ElasticService:
             'mappings':{
                 'properties':{
                 'meta_data':   {'type': 'object'},
-                'audio_id' :   {'type': 'keyword'}
+                'audio_id' :   {'type': 'keyword'},
+                'string': {'type': 'text'}
                     }
                 }
             }

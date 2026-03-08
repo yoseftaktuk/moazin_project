@@ -1,13 +1,11 @@
-from logger import Logger
+from logger.logger import Logger
 from kafka import KafkaConsumer
 import json
 import time
 import os
-from prudocer import KafkaService
 from processingService import ProcessingService
 from send_service import SendService
 logger = Logger.get_logger() 
-kafka = KafkaService()
 processing = ProcessingService()
 kafka_uri = os.getenv('KAFKA_URI')
 send = SendService()

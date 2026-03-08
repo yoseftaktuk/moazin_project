@@ -2,7 +2,7 @@ from asyncio import log
 from kafka import KafkaProducer
 import json
 import os
-from logger import Logger
+from logger.logger import Logger
 kafka_uri = os.getenv('KAFKA_URI', 'localhost:9092')
 logger = Logger.get_logger() 
 

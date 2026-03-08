@@ -1,5 +1,5 @@
 from processingService import ProcessingService
-from logger import Logger
+from logger.logger import Logger
 processin = ProcessingService()
 logger = Logger.get_logger()
 

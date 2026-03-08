@@ -1,14 +1,15 @@
-from logger import Logger
+from logger.logger import Logger
 from kafka import KafkaConsumer
 import json
 import time
 import os
+from prudocer import KafkaService
 from elastic_service import ElasticService
 from transcription_service import TranscriptionService
 transcription = TranscriptionService()
 elastic = ElasticService()
 logger = Logger.get_logger() 
-
+kafka = KafkaService()
 kafka_uri = os.getenv('KAFKA_URI')
 
 def get_from_kafka(topic: str):
@@ -37,6 +38,7 @@ def get_from_kafka(topic: str):
                 data['audio_id'] = hash(str(data['matadata']['name']) + str(data['matadata']['size']) + str(data['matadata']['time']) + str(data['matadata']['path']))
                 elastic.create_index()
                 elastic.upsert(data) #update the elastic index
+                kafka.send_to_kafka(topic='secend_topic', data=data)
        
         if records:
            consumer.commit_async()     

@@ -94,6 +94,7 @@ services:
       ELASTIC_URI: http://elasticsearch:9200
     volumes:
        - ./data/podcasts:/app/data  
+       - ./sherd:/app/logger
     depends_on: 
         kafka:
           condition: service_healthy   
@@ -107,7 +108,8 @@ services:
         USER: my_db
         PASSWORD: my_password
     volumes:
-      - ./data/podcasts:/app/data    
+      - ./data/podcasts:/app/data  
+      - ./sherd:/app/logger  
     depends_on:
       kafka:
         condition: service_healthy
@@ -122,12 +124,27 @@ services:
         KAFKA_URI: kafka:9092
         ELASTIC_URI: http://elasticsearch:9200
     volumes:
-      - ./data/podcasts:/app/data  
+      - ./data/podcasts:/app/data 
+      - ./sherd:/app/logger     
     depends_on:
       kafka:
         condition: service_healthy            
       elasticsearch:
         condition: service_healthy  
+
+  data_analysis_service:
+    build: /data_analysis_service 
+    environment:
+        KAFKA_URI: kafka:9092
+        ELASTIC_URI: http://elasticsearch:9200     
+    volumes:
+      - ./sherd:/app/logger      
+    depends_on:
+      kafka:
+        condition: service_healthy            
+      elasticsearch:
+        condition: service_healthy          
+
 
 volumes:
   es_data:

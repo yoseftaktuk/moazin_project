@@ -1,5 +1,5 @@
 import speech_recognition as sr
-from logger import Logger
+from logger.logger import Logger
 
 log = Logger.get_logger()
 class TranscriptionService:

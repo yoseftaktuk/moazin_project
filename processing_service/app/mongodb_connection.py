@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 import os
 import gridfs
-from logger import Logger
+from logger.logger import Logger
 logger = Logger.get_logger() 
 
 host = os.getenv('HOST', 'mongo')

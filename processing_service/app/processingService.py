@@ -1,7 +1,7 @@
 from uuid import uuid4
 from mongodb_connection import MongoDbService
 from elastic_service import ElasticService
-from logger import Logger
+from logger.logger import Logger
 logger = Logger.get_logger() 
 mongo = MongoDbService()
 elastic = ElasticService()
