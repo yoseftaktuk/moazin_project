@@ -33,7 +33,7 @@ class ElasticQuery:
     }
   }
 }
-        return elastic.query(query=query)
+        return elastic.query(query=query)['aggregations']
     
     def get_all_high_bds_threat_level(self):
         query = {"size": 100,
