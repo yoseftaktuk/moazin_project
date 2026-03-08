@@ -31,6 +31,6 @@ class ElasticService:
         response = es.index(
         index=index_name,
         id=doc_id,
-        body=document_body
+        document=document_body
     )
         return response
