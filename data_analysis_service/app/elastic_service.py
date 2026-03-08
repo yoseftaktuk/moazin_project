@@ -4,6 +4,8 @@ from logger.logger import Logger
 logger = Logger.get_logger()
 
 class ElasticService:
+    def __init__(self):
+        self.es = Elasticsearch(os.getenv('ELASTIC_URI'))
     def mapping(self):
         map = {
             'mappings':{
@@ -17,19 +19,17 @@ class ElasticService:
         return map         
         
     def create_index(self):
-        es = Elasticsearch(os.getenv('ELASTIC_URI',"http://elasticsearch:9200"))  
-        if not es.indices.exists(index='audio'):
-            response = es.indices.create(index='audio', body=self.mapping())
+        if not self.es.indices.exists(index='audio'):
+            response = self.es.indices.create(index='audio', body=self.mapping())
             logger.info(f'index create {response}')
             return
         return
 
     def upsert(self, data: dict):
-        es = Elasticsearch(os.getenv('ELASTIC_URI',"http://elasticsearch:9200"))
         doc_id = data['audio_id']
         index_name = "audio"
         document_body = data
-        response = es.index(
+        response = self.es.index(
         index=index_name,
         id=doc_id,
         document=document_body

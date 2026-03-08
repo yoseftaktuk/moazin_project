@@ -5,10 +5,10 @@ import gridfs
 from logger.logger import Logger
 logger = Logger.get_logger() 
 
-host = os.getenv('HOST', 'mongo')
-port = os.getenv('PORT', 27017)
-user = os.getenv('USER', 'my_db')
-password = os.getenv('PASSWORD', 'my_password')
+host = os.getenv('HOST')
+port = os.getenv('PORT')
+user = os.getenv('USER')
+password = os.getenv('PASSWORD')
 uri = f"mongodb://{user}:{password}@{host}:{port}"
 print(uri)
 
